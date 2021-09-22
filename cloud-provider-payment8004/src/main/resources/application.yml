@@ -1,0 +1,10 @@
+server:
+  port: 8004
+spring:
+  application:
+    # 注册到注册中心的服务名称
+    name: cloud-provider-payment
+  cloud:
+    zookeeper:
+      # 虚拟机中docker中的zookeeper地址
+      connect-string: 192.168.247.128:2181

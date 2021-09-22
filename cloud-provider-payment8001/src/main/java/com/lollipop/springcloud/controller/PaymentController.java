@@ -5,9 +5,12 @@ import com.lollipop.springcloud.entity.Payment;
 import com.lollipop.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: Lollipop
@@ -26,6 +29,9 @@ public class PaymentController {
     @Value("${server.port}")
     private String serverPort;
 
+    @Resource
+    private DiscoveryClient discoveryClient;
+
     /**
      * 通过主键查询单条数据
      *
@@ -38,7 +44,7 @@ public class PaymentController {
         if (payment != null) {
             return new CommonResult<>(200, "select success server port:" + serverPort, payment);
         } else {
-            return new CommonResult<>(400, "select failure server port:"+serverPort, null);
+            return new CommonResult<>(400, "select failure server port:" + serverPort, null);
         }
     }
 
@@ -57,6 +63,20 @@ public class PaymentController {
         } else {
             return new CommonResult<>(300, "insert failure server port:" + serverPort, null);
         }
+    }
+
+    /**
+     * 服务发现
+     *
+     * @return
+     */
+    @GetMapping("/payment/discovery")
+    public Object discovery() {
+        List<String> services = discoveryClient.getServices();
+        services.forEach(s -> log.info("services:{}", s));
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        instances.forEach(s -> log.info(s.getInstanceId() + "\t" + s.getHost() + "\t" + s.getPort() + "\t" + s.getUri()));
+        return this.discoveryClient;
     }
 
 }
