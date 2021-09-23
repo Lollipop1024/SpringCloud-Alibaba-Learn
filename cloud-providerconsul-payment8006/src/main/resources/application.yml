@@ -1,0 +1,16 @@
+server:
+  port: 8006
+spring:
+  application:
+    # 注册到注册中心的服务名称
+    name: cloud-provider-payment
+  cloud:
+    consul:
+      # 虚拟机中docker中的consul地址
+      host: 192.168.70.130
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        # 开启心跳检查，避免consul控制台红叉
+        heartbeat:
+          enabled: true

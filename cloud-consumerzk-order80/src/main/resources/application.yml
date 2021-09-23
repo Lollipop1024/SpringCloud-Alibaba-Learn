@@ -1,9 +1,9 @@
 server:
-  port: 8004
+  port: 80
 spring:
   application:
     # 注册到注册中心的服务名称
-    name: cloud-provider-payment
+    name: cloud-consumer-order
   cloud:
     zookeeper:
       # 虚拟机中docker中的zookeeper地址
