@@ -12,9 +12,9 @@ eureka:
     fetch-registry: false
     service-url:
       # 集群模式：设置与eureka server交互的地址，查询服务和注册服务需要依赖此地址
-#      defaultZone: http://eureka7001.com:7001/eureka/
+      defaultZone: http://eureka7001.com:7001/eureka/
       # 单机模式：指向自己
-      defaultZone: http://eureka7002.com:7002/eureka/
+#      defaultZone: http://eureka7002.com:7002/eureka/
   server:
     # 关闭eureka自我保护机制（某个服务无法访问不会立即删除其实例），默认为true
     enable-self-preservation: false
