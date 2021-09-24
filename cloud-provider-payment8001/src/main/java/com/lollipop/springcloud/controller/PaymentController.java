@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: Lollipop
@@ -39,7 +40,7 @@ public class PaymentController {
      * @return 单条数据
      */
     @GetMapping("/payment/get/{id}")
-    public CommonResult<Payment> selectOne(@PathVariable("id") Long id) {
+    public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id) {
         Payment payment = this.paymentService.queryById(id);
         if (payment != null) {
             return new CommonResult<>(200, "select success server port:" + serverPort, payment);
@@ -86,6 +87,22 @@ public class PaymentController {
      */
     @GetMapping("payment/lb")
     public String getPaymentLB() {
+        return serverPort;
+    }
+
+    /**
+     * 模拟openfeign调用超时
+     *
+     * @return
+     */
+    @GetMapping("payment/feign/timeout")
+    public String paymentFeignTimeout() {
+        try {
+            // 模拟复杂业务调用
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return serverPort;
     }
 }

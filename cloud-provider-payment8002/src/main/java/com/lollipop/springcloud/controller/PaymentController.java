@@ -33,7 +33,7 @@ public class PaymentController {
      * @return 单条数据
      */
     @GetMapping("/payment/get/{id}")
-    public CommonResult<Payment> selectOne(@PathVariable("id") Long id) {
+    public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id) {
         Payment payment = this.paymentService.queryById(id);
         if (payment != null) {
             return new CommonResult<>(200, "select success 8001 server port:" + serverPort, payment);

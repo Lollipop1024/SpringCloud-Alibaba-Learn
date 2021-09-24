@@ -9,7 +9,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/cloud_db2021?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: marshmallow
+    password: 123456
+#    password: marshmallow
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
