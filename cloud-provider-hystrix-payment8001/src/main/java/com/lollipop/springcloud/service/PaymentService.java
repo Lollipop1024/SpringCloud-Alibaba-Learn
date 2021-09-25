@@ -24,7 +24,7 @@ public class PaymentService {
     }
 
     /**
-     * 模拟复杂业务
+     * 模拟复杂业务-一旦报错或超时（3000ms），执行指定fallbackMethod
      *
      * @param id
      * @return
@@ -34,7 +34,7 @@ public class PaymentService {
     })
     public String paymentInfo_Timeout(Integer id) {
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.MILLISECONDS.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class PaymentService {
     }
 
     /**
-     * 降级兜底方案
+     * 降级兜底方案,一旦复杂业务接口超时或者报错，执行此方法保证其他服务正常运行
      *
      * @param id
      * @return

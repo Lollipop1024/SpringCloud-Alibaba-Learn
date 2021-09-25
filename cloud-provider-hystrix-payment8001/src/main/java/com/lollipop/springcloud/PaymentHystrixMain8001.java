@@ -13,6 +13,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableEurekaClient
+/**
+ * 启用断路器，在对应方法上使用@HystrixCommand实现断路器功能
+ */
 @EnableCircuitBreaker
 public class PaymentHystrixMain8001 {
     public static void main(String[] args) {
