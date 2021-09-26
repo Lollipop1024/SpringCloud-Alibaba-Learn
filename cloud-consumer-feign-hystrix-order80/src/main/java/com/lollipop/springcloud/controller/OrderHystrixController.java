@@ -1,6 +1,7 @@
 package com.lollipop.springcloud.controller;
 
 import com.lollipop.springcloud.service.PaymentHystrixService;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
+@DefaultProperties(defaultFallback = "payment_Global_FallbackMethod")
 public class OrderHystrixController {
     @Resource
     private PaymentHystrixService paymentHystrixService;
@@ -28,6 +30,10 @@ public class OrderHystrixController {
     }
 
     @GetMapping("consumer/payment/hystrix/timeout/{id}")
+    /**
+     * 若指定了具体的降级方法，则使用指定的，否则使用全局的降级方法
+     */
+    @HystrixCommand
     public String paymentInfo_Timeout(@PathVariable("id") Integer id) {
         String result = paymentHystrixService.paymentInfo_Timeout(id);
         return result;
@@ -58,5 +64,15 @@ public class OrderHystrixController {
      */
     public String paymentInfo_TimeOutHandler(Integer id) {
         return "消费者80，对方系统繁忙或者自身系统出错，请稍后重试";
+    }
+
+
+    /**
+     * 全局fallback方法
+     *
+     * @return
+     */
+    public String payment_Global_FallbackMethod() {
+        return "Global异常信息处理方法";
     }
 }
