@@ -1,0 +1,30 @@
+server:
+  port: 3344
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/lollipop1024/cloud2021-config-center.git
+          search-paths:
+            - cloud2021-config-center
+          username: 2607166703@qq.com
+          password: lollipop@1024.gitee
+      label: master
+  http:
+    # 解决配置文件中中文乱码
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true

@@ -1,0 +1,28 @@
+server:
+  port: 3355
+
+spring:
+  application:
+    name: cloud-config-client
+  cloud:
+    config:
+      uri: http://localhost:3344
+      name: config
+      profile: dev
+      label: master
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+
+# 服务暴露，实现配置中心修改后，配置客户端动态刷新-在gitee上修改配置后，再发送curl -X POST "http://localhost:3355/actuator/refresh"，使配置客户端同步配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
