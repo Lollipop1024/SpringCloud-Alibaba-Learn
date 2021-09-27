@@ -28,3 +28,18 @@ spring:
       force: true
       charset: utf-8
       enabled: true
+  # RabbitMQ配置
+  rabbitmq:
+    host: 192.168.70.190
+    port: 5672
+    username: lollipop
+    password: lollipop
+    virtual-host: /
+
+# RabbitMQ相关配置，暴露bus刷新配置的端点 实现配置中心修改后，配置客户端动态刷新-在gitee上修改配置后，再发送curl -X POST "http://localhost:3344/actuator/bus-refresh"，使所有配置客户端同步配置
+# 更新具体的客户端：curl -X POST "http://localhost:3344/actuator/bus-refresh/cloud-config-client:3355"
+management:
+  endpoints:  # 暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'
