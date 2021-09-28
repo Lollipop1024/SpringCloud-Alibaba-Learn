@@ -24,8 +24,11 @@ import java.util.List;
 @RestController
 @Slf4j
 public class OrderController {
-    //public static final String PAMENT_URL = "http://localhost:8001";
-    public static final String PAMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
+    //public static final String PAYMENT_URL = "http://localhost:8001";
+    /**
+     * 使用服务名称来调用接口，需要在config中添加@LoadBalanced注解
+     */
+    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
 
     @Resource
     private RestTemplate restTemplate;
@@ -38,22 +41,22 @@ public class OrderController {
 
     @GetMapping("/consumer/payment/create")
     public CommonResult<Payment> create(Payment payment) {
-        return restTemplate.postForObject(PAMENT_URL + "/payment/create", payment, CommonResult.class);
+        return restTemplate.postForObject(PAYMENT_URL + "/payment/create", payment, CommonResult.class);
     }
 
     @GetMapping("/consumer/payment/create2")
     public CommonResult<Payment> create2(Payment payment) {
-        return restTemplate.postForEntity(PAMENT_URL + "/payment/create", payment, CommonResult.class).getBody();
+        return restTemplate.postForEntity(PAYMENT_URL + "/payment/create", payment, CommonResult.class).getBody();
     }
 
     @GetMapping("/consumer/payment/get/{id}")
     public CommonResult<Payment> getPayment(@PathVariable("id") Long id) {
-        return restTemplate.getForObject(PAMENT_URL + "/payment/get/" + id, CommonResult.class);
+        return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
     }
 
     @GetMapping("/consumer/payment/getForEntity/{id}")
     public CommonResult<Payment> getPayment2(@PathVariable("id") Long id) {
-        ResponseEntity<CommonResult> entity = restTemplate.getForEntity(PAMENT_URL + "/payment/get/" + id, CommonResult.class);
+        ResponseEntity<CommonResult> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
         if (entity.getStatusCode().is2xxSuccessful()) {
             return entity.getBody();
         } else {
@@ -63,6 +66,7 @@ public class OrderController {
 
     /**
      * 测试自定义的负载均衡逻辑
+     * PS：使用自定义的负载均衡规则时需要将@LoadBalanced注释掉
      *
      * @return
      */
@@ -77,4 +81,14 @@ public class OrderController {
         return restTemplate.getForObject(uri + "/payment/lb", String.class);
     }
 
+    /**
+     * 测试sleuth zipkin链路调用
+     *
+     * @return
+     */
+    @GetMapping("consumer/payment/zipkin")
+    public String paymentZipkin() {
+        String result = restTemplate.getForObject(PAYMENT_URL + "/payment/zipkin", String.class);
+        return result;
+    }
 }
