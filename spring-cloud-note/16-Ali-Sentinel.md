@@ -173,7 +173,7 @@ management:
       // required 表示是否必须包含此参数
       public String testHostKey(@RequestParam(value = "p1",required = false) String p1,
           @RequestParam(value="p2",required = false)String p2){
-          System.out.println(p1);
+          log.info(p1);
           return "testHostKey";
       }
 
