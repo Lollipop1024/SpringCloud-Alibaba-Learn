@@ -1,4 +1,4 @@
-package com.lollipop.springcloud.config;
+package com.lollipop.springcloud;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
